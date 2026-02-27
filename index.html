@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIO AKIYA</title>
+    <meta name="description" content="A contemplative residency series for creative practice in Japan.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background-color: #fff;
+            color: #0c0c0c;
+            line-height: 1.25;
+            padding: 10rem 3rem 5rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 520px;
+            width: 100%;
+        }
+
+        .site-title {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.045em;
+            line-height: 1.0;
+            margin-bottom: 0.5rem;
+        }
+
+        .site-subtitle {
+            font-size: 1.15rem;
+            font-weight: 400;
+            font-style: italic;
+            letter-spacing: -0.008em;
+            line-height: 1.25;
+            margin-bottom: 0.2rem;
+        }
+
+        .hero-image {
+            margin: 7rem 0 5.5rem;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hero-image figcaption {
+            font-size: 0.75rem;
+            font-weight: 400;
+            font-style: italic;
+            color: #0c0c0c;
+            margin-top: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .section-heading {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-top: 2.8rem;
+            margin-bottom: 0.55rem;
+        }
+
+        .body-text {
+            font-size: 0.94rem;
+            font-weight: 400;
+            letter-spacing: -0.005em;
+            line-height: 1.38;
+            margin-bottom: 0.7rem;
+        }
+
+        .body-text a {
+            color: #0c0c0c;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(12,12,12,0.25);
+            transition: border-color 0.2s;
+        }
+
+        .body-text a:hover {
+            border-bottom-color: #0c0c0c;
+        }
+
+        .edition-title {
+            font-weight: 700;
+        }
+
+        .list-group {
+            margin-top: 0.7rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .list-item {
+            font-size: 0.94rem;
+            font-weight: 400;
+            line-height: 1.38;
+            margin-bottom: 0.12rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .list-item::before {
+            content: '/';
+            position: absolute;
+            left: 0;
+            color: rgba(12,12,12,0.2);
+        }
+
+        .list-item a {
+            color: #0c0c0c;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(12,12,12,0.25);
+        }
+
+        .list-item a:hover {
+            border-bottom-color: #0c0c0c;
+        }
+
+        .label-text {
+            font-size: 0.94rem;
+            font-weight: 400;
+            margin-bottom: 0.2rem;
+            margin-top: 0.7rem;
+        }
+
+        .form-section {
+            margin-top: 3.5rem;
+        }
+
+        .form-section .section-heading {
+            margin-top: 0;
+        }
+
+        .form-embed {
+            width: 100%;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 5rem 1.5rem 3rem; }
+            .site-title { font-size: 2rem; }
+            .site-subtitle { font-size: 1.02rem; }
+            .hero-image { margin: 4.5rem 0 3.5rem; }
+            .section-heading { font-size: 0.95rem; margin-top: 2rem; }
+            .body-text, .list-item, .label-text { font-size: 0.86rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content"></div>
+
+    <script>
+        async function loadContent() {
+            try {
+                const resp = await fetch('content/site-content.json');
+                const data = await resp.json();
+                const container = document.getElementById('content');
+                container.innerHTML = '';
+
+                const labelPhrases = ['This is:', 'This is not:', 'STUDIO AKIYA values:', 'Shared elements include:', 'STUDIO AKIYA may be a good fit if you:',
+                    'STUDIO AKIYA assumes a high degree of personal responsibility. Participants are expected to:'];
+                const editionPrefixes = ['Tokyo Edition', 'Art Islands Edition', 'Takayama Edition'];
+                const captionText = 'Leveraging the spaciousness of emptiness, and the intimacy of homes, to ground contemplative creation.';
+                let imageInserted = false;
+
+                for (const section of data.sections) {
+                    if (section.heading === 'STUDIO AKIYA') {
+                        const h1 = document.createElement('div');
+                        h1.className = 'site-title';
+                        h1.textContent = section.heading;
+                        container.appendChild(h1);
+                        for (const item of section.content) {
+                            if (item.text === captionText) continue;
+                            const p = document.createElement('p');
+                            p.className = 'site-subtitle';
+                            p.textContent = item.text;
+                            container.appendChild(p);
+                        }
+                        continue;
+                    }
+
+                    if (!imageInserted && section.heading === 'What Is STUDIO AKIYA?') {
+                        const figure = document.createElement('figure');
+                        figure.className = 'hero-image';
+                        const img = document.createElement('img');
+                        img.src = 'img/naoshima.JPG';
+                        img.alt = 'View across the Seto Inland Sea from Naoshima';
+                        figure.appendChild(img);
+                        const caption = document.createElement('figcaption');
+                        caption.textContent = captionText;
+                        figure.appendChild(caption);
+                        container.appendChild(figure);
+                        imageInserted = true;
+                    }
+
+                    const heading = document.createElement('h2');
+                    heading.className = 'section-heading';
+                    heading.textContent = section.heading;
+                    container.appendChild(heading);
+
+                    let i = 0;
+                    const items = section.content;
+                    while (i < items.length) {
+                        const item = items[i];
+                        if (item.type === 'list_item') {
+                            const group = document.createElement('div');
+                            group.className = 'list-group';
+                            while (i < items.length && items[i].type === 'list_item') {
+                                const el = document.createElement('div');
+                                el.className = 'list-item';
+                                let text = items[i].text;
+                                if (items[i].links && items[i].links.length > 0) {
+                                    for (const link of items[i].links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
+                                    el.innerHTML = text;
+                                } else { el.textContent = text; }
+                                group.appendChild(el);
+                                i++;
+                            }
+                            container.appendChild(group);
+                        } else {
+                            const isLabel = labelPhrases.includes(item.text);
+                            const p = document.createElement('p');
+                            p.className = isLabel ? 'label-text' : 'body-text';
+                            let text = item.text;
+                            const isEdition = editionPrefixes.some(prefix => text.startsWith(prefix));
+                            if (isEdition) {
+                                const colonIdx = text.indexOf(':');
+                                if (colonIdx > -1) { text = `<span class="edition-title">${text.substring(0, colonIdx + 1)}</span>${text.substring(colonIdx + 1)}`; }
+                            }
+                            if (item.links && item.links.length > 0) {
+                                for (const link of item.links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
+                            }
+                            p.innerHTML = text;
+                            container.appendChild(p);
+                            i++;
+                        }
+                    }
+                }
+
+                const formSection = document.createElement('div');
+                formSection.className = 'form-section';
+                const formHeading = document.createElement('h2');
+                formHeading.className = 'section-heading';
+                formHeading.textContent = 'Apply';
+                formSection.appendChild(formHeading);
+                const iframe = document.createElement('iframe');
+                iframe.className = 'form-embed';
+                iframe.src = 'https://docs.google.com/forms/d/e/1FAIpQLSfd5XXzPPzBHgN67YLsdHvm8ahVVpZHuGer0NG5a1_JhO8F-w/viewform?embedded=true';
+                iframe.height = '2800';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('marginheight', '0');
+                iframe.setAttribute('marginwidth', '0');
+                iframe.setAttribute('loading', 'lazy');
+                formSection.appendChild(iframe);
+                container.appendChild(formSection);
+            } catch (e) { console.error('Failed to load content:', e); }
+        }
+        loadContent();
+    </script>
+</body>
+</html>
