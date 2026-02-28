@@ -105,6 +105,35 @@
 
         .edition-title {
             font-weight: 700;
+            font-style: italic;
+        }
+
+        .edition-text {
+            font-style: italic;
+        }
+
+        .edition-item {
+            font-style: italic;
+            margin-bottom: 0.7rem;
+        }
+
+        .edition-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .influence-item {
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .bio-item {
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .bio-item:last-child {
+            margin-bottom: 0;
         }
 
         .list-group {
@@ -170,6 +199,7 @@
             .hero-image { margin: 4.5rem 0 3.5rem; }
             .section-heading { font-size: 0.95rem; margin-top: 2rem; }
             .body-text, .list-item, .label-text { font-size: 0.86rem; }
+            .influence-item, .bio-item { font-size: 0.82rem; }
         }
     </style>
 </head>
@@ -188,7 +218,11 @@
                     'STUDIO AKIYA assumes a high degree of personal responsibility. Participants are expected to:'];
                 const editionPrefixes = ['Tokyo Edition', 'Art Islands Edition', 'Takayama Edition'];
                 const captionText = 'Leveraging the spaciousness of emptiness, and the intimacy of homes, to ground contemplative creation.';
+                const influencesSectionName = 'Influences & Lineages';
+                const biosSectionName = 'About Your Co-Convenors';
                 let imageInserted = false;
+                let inInfluencesSection = false;
+                let inBiosSection = false;
 
                 for (const section of data.sections) {
                     if (section.heading === 'STUDIO AKIYA') {
@@ -220,6 +254,9 @@
                         imageInserted = true;
                     }
 
+                    inInfluencesSection = (section.heading === influencesSectionName);
+                    inBiosSection = (section.heading === biosSectionName);
+
                     const heading = document.createElement('h2');
                     heading.className = 'section-heading';
                     heading.textContent = section.heading;
@@ -234,8 +271,10 @@
                             group.className = 'list-group';
                             while (i < items.length && items[i].type === 'list_item') {
                                 const el = document.createElement('div');
-                                el.className = 'list-item';
+                                el.className = 'list-item' + (inInfluencesSection ? ' influence-item' : '');
                                 let text = items[i].text;
+                                // Replace em dash with colon in influences
+                                if (inInfluencesSection) { text = text.replace(' — ', ': '); }
                                 if (items[i].links && items[i].links.length > 0) {
                                     for (const link of items[i].links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
                                     el.innerHTML = text;
@@ -246,13 +285,20 @@
                             container.appendChild(group);
                         } else {
                             const isLabel = labelPhrases.includes(item.text);
-                            const p = document.createElement('p');
-                            p.className = isLabel ? 'label-text' : 'body-text';
                             let text = item.text;
+                            // Fix stray spaces before punctuation
+                            text = text.replace(/\s+([.,!?])/g, '$1');
                             const isEdition = editionPrefixes.some(prefix => text.startsWith(prefix));
+                            const isBio = inBiosSection;
+                            const p = document.createElement((isEdition || isBio) ? 'div' : 'p');
                             if (isEdition) {
+                                p.className = 'list-item edition-item';
                                 const colonIdx = text.indexOf(':');
-                                if (colonIdx > -1) { text = `<span class="edition-title">${text.substring(0, colonIdx + 1)}</span>${text.substring(colonIdx + 1)}`; }
+                                if (colonIdx > -1) { text = `<span class="edition-title">${text.substring(0, colonIdx + 1)}</span><span class="edition-text">${text.substring(colonIdx + 1)}</span>`; }
+                            } else if (isBio) {
+                                p.className = 'list-item bio-item';
+                            } else {
+                                p.className = isLabel ? 'label-text' : 'body-text';
                             }
                             if (item.links && item.links.length > 0) {
                                 for (const link of item.links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
