@@ -103,12 +103,20 @@
             border-bottom-color: #0c0c0c;
         }
 
+        .editions-block {
+            border-left: 2px solid rgba(12,12,12,0.15);
+            padding-left: 1.2rem;
+            margin-top: 0.7rem;
+            margin-bottom: 0.7rem;
+        }
+
         .edition-title {
             font-weight: 700;
         }
 
         .edition-item {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            line-height: 1.38;
             margin-bottom: 0.7rem;
         }
 
@@ -245,9 +253,11 @@
 
                     let i = 0;
                     const items = section.content;
+                    let editionsBlock = null;
                     while (i < items.length) {
                         const item = items[i];
                         if (item.type === 'list_item') {
+                            editionsBlock = null;
                             const group = document.createElement('div');
                             group.className = 'list-group';
                             while (i < items.length && items[i].type === 'list_item') {
@@ -270,19 +280,31 @@
                             // Fix stray spaces before punctuation
                             text = text.replace(/\s+([.,!?])/g, '$1');
                             const isEdition = editionPrefixes.some(prefix => text.startsWith(prefix));
-                            const p = document.createElement(isEdition ? 'div' : 'p');
                             if (isEdition) {
-                                p.className = 'list-item edition-item';
+                                if (!editionsBlock) {
+                                    editionsBlock = document.createElement('div');
+                                    editionsBlock.className = 'editions-block';
+                                    container.appendChild(editionsBlock);
+                                }
+                                const p = document.createElement('div');
+                                p.className = 'edition-item';
                                 const colonIdx = text.indexOf(':');
                                 if (colonIdx > -1) { text = `<span class="edition-title">${text.substring(0, colonIdx + 1)}</span>${text.substring(colonIdx + 1)}`; }
+                                if (item.links && item.links.length > 0) {
+                                    for (const link of item.links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
+                                }
+                                p.innerHTML = text;
+                                editionsBlock.appendChild(p);
                             } else {
+                                editionsBlock = null;
+                                const p = document.createElement('p');
                                 p.className = isLabel ? 'label-text' : 'body-text';
+                                if (item.links && item.links.length > 0) {
+                                    for (const link of item.links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
+                                }
+                                p.innerHTML = text;
+                                container.appendChild(p);
                             }
-                            if (item.links && item.links.length > 0) {
-                                for (const link of item.links) { text = text.replace(link.text, `<a href="${link.url}">${link.text}</a>`); }
-                            }
-                            p.innerHTML = text;
-                            container.appendChild(p);
                             i++;
                         }
                     }
