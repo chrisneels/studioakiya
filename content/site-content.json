@@ -197,6 +197,21 @@
           "type": "paragraph",
           "text": "Structure exists to support attention and intention, not to dictate outcomes. Some friction is deliberate — an invitation to see your work, and the assumptions beneath it, more clearly.",
           "links": []
+        },
+        {
+          "type": "paragraph",
+          "text": "A week at STUDIO AKIYA might look like: mornings begin with a shared sit and movement. The bulk of the day is protected for deep work — uninterrupted, self-directed, yours. Meals are prepared and eaten together. Most days include a facilitated workshop where one resident shares their work-in-progress and the group offers perspectives, questions, and challenges, supported by AI-assisted research that surfaces unexpected connections. Every five days, the group pauses to reflect: What moved? What didn't? What's emerging?",
+          "links": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Facilitated excursions punctuate the rhythm — e.g. an onsen visit, a walk through a nearby forest or along a beach, an afternoon with an indigo dyer or a papermaker — designed shifts in context that open new material for the work.",
+          "links": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Evenings belong to the group. Perhaps a resident may want to screen a film, run a blind sake tasting, teach a game no one else knows, or play five songs that made them who they are. Sometimes evenings are quiet and self-directed. There is no obligation to gather. Solitude, when one needs it, is always available.",
+          "links": []
         }
       ],
       "links": []
@@ -337,6 +352,22 @@
       "links": []
     },
     {
+      "heading": "What To Bring",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "A project, inquiry, or question you're already working on. This could be a book, a body of research, a business you're building, a creative work in progress, a career transition you're thinking through, or a practice you want to deepen. It doesn't need to be polished or even well-defined — but you should arrive with something that wants your sustained attention. The common thread isn't discipline — it's seriousness of intent.",
+          "links": []
+        },
+        {
+          "type": "paragraph",
+          "text": "Practically: Bring your own laptop and any tools specific to your work. STUDIO AKIYA provides accommodation, food, internet, workspace, and the full residency program.",
+          "links": []
+        }
+      ],
+      "links": []
+    },
+    {
       "heading": "Experimentation & Uncertainty",
       "content": [
         {
@@ -446,6 +477,16 @@
           "type": "paragraph",
           "text": "James McMillan is a writer and communications strategist based in Kyiv. He has worked at senior levels of the Canadian government and, more recently, on strategic communications in the context of Russia's war on Ukraine — focused on protecting information integrity and safeguarding Ukrainian agency, identity, and culture under sustained attack. Living inside those conditions shifted his central question from how to shape messages to what must be true of attention, responsibility, and consequence for communication to matter at all. He facilitates an Engaged Buddhism–inspired sangha in Kyiv, and joins STUDIO AKIYA as a co-convenor drawn by the same concerns that animate his work.",
           "links": []
+        },
+        {
+          "type": "paragraph",
+          "text": "<em>If you have any questions, send us a note at hello@akiya.studio</em>",
+          "links": [
+            {
+              "text": "hello@akiya.studio",
+              "url": "mailto:hello@akiya.studio"
+            }
+          ]
         }
       ],
       "links": []
